@@ -1,10 +1,11 @@
-const express = require("express");
-const { createServer: createViteServer } = require("vite");
-const { exec } = require("child_process");
-const path = require("path");
+import express from "express";
+import { createServer as createViteServer } from "vite";
+import { exec } from "child_process";
+import path from "path";
+import { fileURLToPath } from "url";
 
-// 更可靠的方式获取当前目录
-const __dirname = path.resolve();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 async function startServer() {
   const app = express();
@@ -22,7 +23,7 @@ async function startServer() {
 
     if (!command) {
       // Fallback/Simulation for non-macOS environments (like Cloud Run)
-      const mockApps = ["Codex", "Claude Code", "OpenClaw", "Hermes", "VS Code", "Terminal", "System Settings", "Vibe Coding"];
+      const mockApps = ["Codex", "Claude Code", "OpenClaw", "Hermes", "VS Code", "Terminal", "System Settings"];
       const randomApp = mockApps[Math.floor(Math.random() * mockApps.length)];
       return res.json({ process: randomApp, simulated: true });
     }
@@ -31,7 +32,7 @@ async function startServer() {
       if (error) {
         console.error(`Error executing process detection: ${error.message}`);
         // Fallback to simulation if command fails (common in restricted envs)
-        const mockApps = ["Codex", "Claude Code", "OpenClaw", "Hermes", "VS Code", "Terminal", "Vibe Coding"];
+        const mockApps = ["Codex", "Claude Code", "OpenClaw", "Hermes", "VS Code", "Terminal"];
         const randomApp = mockApps[Math.floor(Math.random() * mockApps.length)];
         return res.json({ process: randomApp, error: error.message, simulated: true });
       }
@@ -42,18 +43,12 @@ async function startServer() {
   // Vite middleware for development
   if (process.env.NODE_ENV !== "production") {
     const vite = await createViteServer({
-      server: { 
-        middlewareMode: true,
-        hmr: {
-          overlay: false // 禁用错误覆盖层
-        }
-      },
+      server: { middlewareMode: true },
       appType: "spa",
-      root: __dirname
     });
     app.use(vite.middlewares);
   } else {
-    const distPath = path.join(__dirname, "dist");
+    const distPath = path.join(process.cwd(), "dist");
     app.use(express.static(distPath));
     app.get("*", (req, res) => {
       res.sendFile(path.join(distPath, "index.html"));
@@ -65,8 +60,4 @@ async function startServer() {
   });
 }
 
-if (require.main === module) {
-  startServer();
-}
-
-module.exports = startServer;
+startServer();

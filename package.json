@@ -1,21 +1,15 @@
 {
-  "name": "agentflow",
+  "name": "react-example",
   "private": true,
-  "version": "1.0.0",
-  "description": "AgentFlow - macOS application for monitoring coding sessions",
-  "main": "main.js",
-  "type": "commonjs",
+  "version": "0.0.0",
+  "type": "module",
   "scripts": {
     "dev": "tsx server.ts",
     "start": "node dist/server.cjs",
     "build": "vite build",
     "preview": "vite preview",
     "clean": "rm -rf dist",
-    "lint": "tsc --noEmit",
-    "electron": "electron .",
-    "electron:dev": "concurrently \"npm run dev\" \"electron .\"",
-    "pack": "electron-builder --dir",
-    "dist": "electron-builder"
+    "lint": "tsc --noEmit"
   },
   "dependencies": {
     "@google/genai": "^1.29.0",
@@ -39,23 +33,9 @@
     "@types/express": "^4.17.21",
     "@types/node": "^22.14.0",
     "autoprefixer": "^10.4.21",
-    "concurrently": "^7.6.0",
-    "electron": "^41.3.0",
-    "electron-builder": "^26.8.1",
     "tailwindcss": "^4.1.14",
     "tsx": "^4.21.0",
     "typescript": "~5.8.2",
     "vite": "^6.2.0"
-  },
-  "build": {
-    "appId": "com.agentflow.app",
-    "productName": "AgentFlow",
-    "mac": {
-      "category": "public.app-category.utilities",
-      "target": ["dmg", "zip"]
-    },
-    "directories": {
-      "output": "build"
-    }
   }
 }
