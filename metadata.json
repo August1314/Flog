@@ -1,0 +1,6 @@
+{
+  "name": "Agentic AI Flow Tracker",
+  "description": "A lightweight, local-first utility for tracking and analyzing time spent in agentic AI coding tools. Features a productivity dashboard, task logging, and retrospective insights.",
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}
