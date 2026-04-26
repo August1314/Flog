@@ -1,5 +1,4 @@
 const express = require("express");
-const { createServer: createViteServer } = require("vite");
 const { exec } = require("child_process");
 const path = require("path");
 
@@ -8,7 +7,15 @@ const __dirname = path.resolve();
 
 async function startServer() {
   const app = express();
-  const PORT = 3000;
+  const PORT = 3001; // 更改端口，避免与Vite冲突
+
+  // 允许跨域
+  app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    next();
+  });
 
   // Endpoint to detect the active frontmost process
   app.get("/api/active-process", (req, res) => {
@@ -38,27 +45,6 @@ async function startServer() {
       res.json({ process: stdout.trim(), simulated: false });
     });
   });
-
-  // Vite middleware for development
-  if (process.env.NODE_ENV !== "production") {
-    const vite = await createViteServer({
-      server: { 
-        middlewareMode: true,
-        hmr: {
-          overlay: false // 禁用错误覆盖层
-        }
-      },
-      appType: "spa",
-      root: __dirname
-    });
-    app.use(vite.middlewares);
-  } else {
-    const distPath = path.join(__dirname, "dist");
-    app.use(express.static(distPath));
-    app.get("*", (req, res) => {
-      res.sendFile(path.join(distPath, "index.html"));
-    });
-  }
 
   app.listen(PORT, "0.0.0.0", () => {
     console.log(`AgentFlow Backend running on http://localhost:${PORT}`);

@@ -6,7 +6,7 @@
   "main": "main.js",
   "type": "commonjs",
   "scripts": {
-    "dev": "tsx server.ts",
+    "dev": "concurrently \"tsx server.ts\" \"vite\"",
     "start": "node dist/server.cjs",
     "build": "vite build",
     "preview": "vite preview",

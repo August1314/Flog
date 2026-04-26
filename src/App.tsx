@@ -32,7 +32,7 @@ export default function App() {
   useEffect(() => {
     const fetchActiveProcess = async () => {
       try {
-        const response = await fetch('/api/active-process');
+        const response = await fetch('http://localhost:3001/api/active-process');
         const data = await response.json();
         setMonitoredProcess(data.process);
         setCurrentService(mapProcessToService(data.process));
