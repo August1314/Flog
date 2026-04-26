@@ -3,8 +3,7 @@ const { createServer: createViteServer } = require("vite");
 const { exec } = require("child_process");
 const path = require("path");
 
-// 更可靠的方式获取当前目录
-const __dirname = path.resolve();
+const __dirname = path.dirname(require.main.filename);
 
 async function startServer() {
   const app = express();
@@ -42,18 +41,12 @@ async function startServer() {
   // Vite middleware for development
   if (process.env.NODE_ENV !== "production") {
     const vite = await createViteServer({
-      server: { 
-        middlewareMode: true,
-        hmr: {
-          overlay: false // 禁用错误覆盖层
-        }
-      },
+      server: { middlewareMode: true },
       appType: "spa",
-      root: __dirname
     });
     app.use(vite.middlewares);
   } else {
-    const distPath = path.join(__dirname, "dist");
+    const distPath = path.join(process.cwd(), "dist");
     app.use(express.static(distPath));
     app.get("*", (req, res) => {
       res.sendFile(path.join(distPath, "index.html"));
