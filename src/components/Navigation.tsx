@@ -1,5 +1,5 @@
 import React from 'react';
-import { Timer, LayoutDashboard, History, Settings } from 'lucide-react';
+import { Timer, LayoutDashboard, History, Settings, Rocket } from 'lucide-react';
 import { motion } from 'motion/react';
 import { cn } from '../lib/utils';
 
@@ -12,6 +12,7 @@ export const Navigation: React.FC<NavigationProps> = ({ activeTab, onTabChange }
   const tabs = [
     { id: 'tracker', icon: Timer, label: 'Session' },
     { id: 'dashboard', icon: LayoutDashboard, label: 'Analytics' },
+    { id: 'startup', icon: Rocket, label: 'Startup' },
     { id: 'history', icon: History, label: 'History' },
     { id: 'settings', icon: Settings, label: 'System' },
   ];

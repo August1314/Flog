@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ActiveSession } from './components/ActiveSession';
 import { Dashboard } from './components/Dashboard';
+import { StartupMonitor } from './components/StartupMonitor';
 import { History } from './components/History';
 import { Settings } from './components/Settings';
 import { Navigation } from './components/Navigation';
@@ -21,10 +22,12 @@ export default function App() {
     if (p.includes('codex')) return "Codex";
     if (p.includes('claude')) return "Claude Code";
     if (p.includes('openclaw')) return "OpenClaw";
+    if (p.includes('qclaw')) return "QClaw";
     if (p.includes('hermes')) return "Hermes";
     if (p.includes('code') || p.includes('vscode') || p.includes('visual studio')) return "VS Code";
     if (p.includes('terminal') || p.includes('iterm')) return "Terminal";
     if (p.includes('vibe') || p.includes('vibe coding')) return "Vibe Coding";
+    if (p.includes('trae cn') || p.includes('trae')) return "trae cn";
     return process;
   };
 
@@ -99,8 +102,9 @@ export default function App() {
                   exit={{ opacity: 0, y: 10 }}
                   transition={{ duration: 0.2, ease: "easeOut" }}
                 >
-                  {activeTab === 'dashboard' ? <Dashboard /> : 
-                   activeTab === 'settings' ? <Settings /> : 
+                  {activeTab === 'dashboard' ? <Dashboard /> :
+                   activeTab === 'settings' ? <Settings /> :
+                   activeTab === 'startup' ? <StartupMonitor /> :
                    activeTab === 'tracker' ? (
                      <div className="text-center mb-8">
                        <h2 className="text-2xl font-extrabold tracking-tight text-[#1D1D1F] mb-3">Focus Command</h2>

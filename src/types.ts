@@ -22,3 +22,16 @@ export interface DailyStats {
   totalDuration: number;
   byService: Record<AIService, number>;
 }
+
+export type StartupStatus = 'NotStarted' | 'Starting' | 'Started' | 'Failed';
+
+export interface StartupRecord {
+  id?: number;
+  timestamp: Date;
+  durationMs: number;
+  success: boolean;
+  failureReason?: string;
+  startedAt: Date;
+  completedAt: Date;
+  tags?: string[];
+}
